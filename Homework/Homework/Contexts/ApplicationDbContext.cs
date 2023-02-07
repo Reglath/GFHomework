@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Homework.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Homework.Contexts
 {
     public class ApplicationDbContext : DbContext
     {
-        //public DbSet<Voted> Voted { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Item> Items { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }

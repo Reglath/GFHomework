@@ -1,23 +1,33 @@
-﻿using Homework.Services;
+﻿using Homework.Models.DTOs;
+using Homework.Models.Entities;
+using Homework.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Homework.Controllers
 {
     [Route("")]
+    [ApiController]
     public class HomeController : Controller
     {
-        private Service service { get; set; }
+        private UserService userService { get; set; }
 
-        public HomeController(Service service)
+        public HomeController(UserService userService)
         {
-            this.service = service;
+            this.userService = userService;
         }
 
-        public IActionResult Index()
+        [HttpPost("/register")]
+        public IActionResult Register([FromBody]RegisterDTO registerDTO)
         {
-            HttpContext.Session.SetString("user", "x");
-            //vm.User = HttpContext.Session.GetString("user");
-            return View();
+            var result = userService.Register(registerDTO);
+            return StatusCode(result.Status, result.Message);
+        }
+
+        [HttpPost("/login")]
+        public IActionResult Login([FromBody] LoginDTO loginDTO)
+        {
+            var result = userService.Login(loginDTO);
+            return StatusCode(result.Status, result.Message);
         }
     }
 }
