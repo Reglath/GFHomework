@@ -12,7 +12,8 @@ namespace Homework.Models.DTOs
         {
             Name = item.Name;
             PhotoURL = item.Url;
-            CurrentBid = item.Price;
+            if(item.Bids.Count> 0 )
+                CurrentBid = item.Bids.Last().Price;
         }
     }
 }
