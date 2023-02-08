@@ -49,7 +49,24 @@ namespace Homework.Services
                 return new LoginResponseDTO() { Status = 400, Message = "incorrect password" };
 
             CreateJWTToken(loginDTO);
-            return new LoginResponseDTO() { Status = 200, Message = "user logged in" };
+            return new LoginResponseDTO() { Status = 200, Message = "user logged in, current amount of greenBay dollars is: "+ context.Users.FirstOrDefault(u => u.Username == loginDTO.Username).Money };
+        }
+
+        public LoginResponseDTO GetJWT(LoginDTO loginDTO)
+        {
+            if (loginDTO == null)
+                return new LoginResponseDTO() { Status = 400, Message = "invalid input" };
+            if (loginDTO.Username == null)
+                return new LoginResponseDTO() { Status = 400, Message = "username required" };
+            if (loginDTO.Password == null)
+                return new LoginResponseDTO() { Status = 400, Message = "password required" };
+            if (!context.Users.Any(u => u.Username.Equals(loginDTO.Username)))
+                return new LoginResponseDTO() { Status = 400, Message = "username not registered" };
+            if (!context.Users.FirstOrDefault(u => u.Username == loginDTO.Username).Password.Equals(loginDTO.Password))
+                return new LoginResponseDTO() { Status = 400, Message = "incorrect password" };
+
+            var message = CreateJWTToken(loginDTO);
+            return new LoginResponseDTO() { Status = 200, Message = message };
         }
 
         private void AddNewUser(RegisterDTO registerDTO)

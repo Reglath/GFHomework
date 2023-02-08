@@ -43,6 +43,7 @@ builder.Services.AddSwaggerGen(options =>
     }));
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ItemService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
