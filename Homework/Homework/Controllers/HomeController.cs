@@ -13,10 +13,10 @@ namespace Homework.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private UserService userService { get; set; }
-        private ItemService itemService { get; set; }
+        private IUserService userService { get; set; }
+        private IItemService itemService { get; set; }
 
-        public HomeController(UserService userService, ItemService itemService)
+        public HomeController(IUserService userService, IItemService itemService)
         {
             this.userService = userService;
             this.itemService = itemService;

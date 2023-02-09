@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Homework.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private ApplicationDbContext context;
         private IConfiguration config;
@@ -24,9 +24,9 @@ namespace Homework.Services
         {
             if (registerDTO == null)
                 return new RegisterResponseDTO() { Status = 400, Message = "invalid input" };
-            if (registerDTO.Username == null)
+            if (registerDTO.Username == null || registerDTO.Username.Length == 0)
                 return new RegisterResponseDTO() { Status = 400, Message = "username required" };
-            if (registerDTO.Password == null)
+            if (registerDTO.Password == null || registerDTO.Password.Length == 0)
                 return new RegisterResponseDTO() { Status = 400, Message = "password required" };
             if (context.Users.Any(u => u.Username.Equals(registerDTO.Username)))
                 return new RegisterResponseDTO() { Status = 400, Message = "username is already taken" };
@@ -49,7 +49,7 @@ namespace Homework.Services
                 return new LoginResponseDTO() { Status = 400, Message = "incorrect password" };
 
             CreateJWTToken(loginDTO);
-            return new LoginResponseDTO() { Status = 200, Message = "user logged in, current amount of greenBay dollars is: "+ context.Users.FirstOrDefault(u => u.Username == loginDTO.Username).Money };
+            return new LoginResponseDTO() { Status = 200, Message = "user logged in, current amount of greenBay dollars is: " + context.Users.FirstOrDefault(u => u.Username == loginDTO.Username).Money };
         }
 
         public LoginResponseDTO GetJWT(LoginDTO loginDTO)
@@ -77,13 +77,11 @@ namespace Homework.Services
 
         private string CreateJWTToken(LoginDTO loginDTO)
         {
-            //stores PlayerId in JWT
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("Username", loginDTO.Username.ToString()),
             };
 
-            //gets token from secrets.json
             var keyString = config.GetSection("JWTToken").Value;
             keyString ??= Environment.GetEnvironmentVariable("JWTToken");
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(keyString));
