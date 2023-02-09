@@ -25,4 +25,4 @@ jobs:
     - name: Build 
       run: dotnet build ./Homework/Homework/Homework.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./Homework/Homework.sln --no-build --verbosity normal
