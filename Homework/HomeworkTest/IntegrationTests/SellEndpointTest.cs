@@ -28,6 +28,7 @@ namespace HomeworkTest.IntegrationTests
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
+
         //[Theory]
         //[InlineData("/sell", "name", "description", "https://google.com", 20, 10)]
 
