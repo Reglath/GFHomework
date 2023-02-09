@@ -8,7 +8,6 @@ on:
 
 env:
   JWTToken: ${{ secrets.JWT_TOKEN }}
-  EmailToken: ${{ secrets.EMAIL_KEY }}
 
 jobs:
   build:
