@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./Homework/Homework.sln
     - name: Build 
-      run: dotnet build ./Homework/Homework/Homework.sln --no-restore
+      run: dotnet build ./Homework/Homework/Homework.csproj --no-restore
     - name: Test
       run: dotnet test ./Homework/Homework.sln --no-build --verbosity normal
