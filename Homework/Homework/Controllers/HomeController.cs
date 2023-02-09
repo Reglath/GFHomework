@@ -76,5 +76,18 @@ namespace Homework.Controllers
 
             return StatusCode(result.Status, result.View);
         }
+
+        [HttpPost("/bid")]
+        public IActionResult Bid(BidDTO bidDTO)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var request = new BidRequestDTO() { Username = identity.FindFirst("Username").Value, BidDTO = bidDTO };
+            var result = itemService.Bid(request);
+
+            if (result.Status == 400)
+                return StatusCode(result.Status, result.Message);
+
+            return StatusCode(result.Status, result.Item);
+        }
     }
 }
